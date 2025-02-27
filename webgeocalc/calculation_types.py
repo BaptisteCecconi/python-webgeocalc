@@ -135,10 +135,6 @@ class AngularSeparation(Calculation):
             kwargs['shape_1'] = shape_1
             kwargs['shape_2'] = shape_2
 
-        if spec_type == 'TWO_DIRECTIONS':
-            kwargs['direction_1'] = direction_1
-            kwargs['direction_2'] = direction_2
-            
         super().__init__(**kwargs)
 
 

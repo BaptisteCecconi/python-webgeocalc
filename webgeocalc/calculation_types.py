@@ -123,7 +123,7 @@ class AngularSeparation(Calculation):
 
         spec_type_required = {
             'TWO_TARGETS': ('target_1', 'target_2', 'observer'),
-            'TWO_DIRECTIONS': ('direction_1', 'direction_2)
+            'TWO_DIRECTIONS': ('direction_1', 'direction_2')
         }
         self.REQUIRED = spec_type_required[spec_type]
 

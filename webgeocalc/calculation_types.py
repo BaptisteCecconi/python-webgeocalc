@@ -70,10 +70,22 @@ class AngularSeparation(Calculation):
 
     Parameters
     ----------
+    spec_type: str, optional. 'TWO_TARGETS' type is selected if not specified.
+        See: :py:attr:`spec_type`
     shape_1: str, optional
         See: :py:attr:`shape_1`
     shape_2: str, optional
         See: :py:attr:`shape_2`
+    target_1: str or int, required if spec_type is 'TWO_TARGETS' or not defined
+        See: :py:attr:`target_1`
+    target_2: str or int, required if spec_type is 'TWO_TARGETS' or not defined
+        See: :py:attr:`target_2`
+    observer: str or int, required if spec_type is 'TWO_TARGETS' or not defined
+        See: :py:attr:`observer`
+    direction_1: str or int, required if spec_type is 'TWO_DIRECTIONS'
+        See: :py:attr:`direction_1`
+    direction_2: str or int, required if spec_type is 'TWO_DIRECTIONS'
+        See: :py:attr:`direction_2`
     aberration_correction: str, optional
         See: :py:attr:`aberration_correction`
 
@@ -95,12 +107,6 @@ class AngularSeparation(Calculation):
         See: :py:attr:`time_system`
     time_format: str
         See: :py:attr:`time_format`
-    target_1: str or int
-        See: :py:attr:`target_1`
-    target_2: str or int
-        See: :py:attr:`target_2`
-    observer: str or int
-        See: :py:attr:`observer`
 
     Raises
     ------
@@ -109,17 +115,30 @@ class AngularSeparation(Calculation):
         :py:attr:`observer` are not provided.
 
     """
+    
 
-    REQUIRED = ('target_1', 'target_2', 'observer')
-
-    def __init__(self, shape_1='POINT', shape_2='POINT',
+    def __init__(self, spec_type='TWO_TARGETS', 
+                 shape_1='POINT', shape_2='POINT',
                  aberration_correction='CN', **kwargs):
 
-        kwargs['calculation_type'] = 'ANGULAR_SEPARATION'
-        kwargs['shape_1'] = shape_1
-        kwargs['shape_2'] = shape_2
-        kwargs['aberration_correction'] = aberration_correction
+        spec_type_required = {
+            'TWO_TARGETS': ('target_1', 'target_2', 'observer'),
+            'TWO_DIRECTIONS': ('direction_1', 'direction_2)
+        }
+        self.REQUIRED = spec_type_required[spec_type]
 
+        kwargs['calculation_type'] = 'ANGULAR_SEPARATION'
+        kwargs['aberration_correction'] = aberration_correction
+        kwargs['specType'] = spec_type
+
+        if spec_type == 'TWO_TARGETS':
+            kwargs['shape_1'] = shape_1
+            kwargs['shape_2'] = shape_2
+
+        if spec_type == 'TWO_DIRECTIONS':
+            kwargs['direction_1'] = direction_1
+            kwargs['direction_2'] = direction_2
+            
         super().__init__(**kwargs)
 
 
